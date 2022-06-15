@@ -5,21 +5,23 @@ import pickle
 # from sklearn.ensemble import RandomForestClassifier
 
 st.write("""
-# Penguin Prediction App
+# Aplicación para predicir Pigüinos
 
-This app predicts the **Palmer Penguin** species!
+Esta aplicación predice tres especies diferentes **Adelie, Chinstrap y Gentoo**!
 
-Data obtained from the [palmerpenguins library](https://github.com/allisonhorst/palmerpenguins) in R by Allison Horst.
+Los datos fueron obtenidos de [Estación Palmer Antártida LTER](https://pallter.marine.rutgers.edu/).
+
+Miembro de la Red de Investigación Ecológica a Largo Plazo.
 """)
 
-st.sidebar.header('User Input Features')
+st.sidebar.header('Funciones de entrada del usuario')
 
 st.sidebar.markdown("""
-[Example CSV input file](https://raw.githubusercontent.com/dataprofessor/data/master/penguins_example.csv)
+[Ejemplo de archivo de entrada CSV](https://raw.githubusercontent.com/MelDusan/CSV/main/penguins_cleaned.csv)
 """)
 
 # Collects user input features into dataframe
-uploaded_file = st.sidebar.file_uploader("Upload your input CSV file", type=["csv"])
+uploaded_file = st.sidebar.file_uploader("Carga tu archivo CSV de entrada", type=["csv"])
 if uploaded_file is not None:
     input_df = pd.read_csv(uploaded_file)
 else:
@@ -56,12 +58,12 @@ for col in encode:
 df = df[:1] # Selects only the first row (the user input data)
 
 # Displays the user input features
-st.subheader('User Input features')
+st.subheader('Funciones de entrada de usuario')
 
 if uploaded_file is not None:
     st.write(df)
 else:
-    st.write('Awaiting CSV file to be uploaded. Currently using example input parameters (shown below).')
+    st.write('A la espera de que se cargue el archivo CSV. Actualmente usando parámetros de entrada de ejemplo (que se muestran a continuación).')
     st.write(df)
 
 # Reads in saved classification model
@@ -72,9 +74,9 @@ prediction = load_clf.predict(df)
 prediction_proba = load_clf.predict_proba(df)
 
 
-st.subheader('Prediction')
+st.subheader('Predicción')
 penguins_species = np.array(['Adelie', 'Chinstrap', 'Gentoo'])
 st.write(penguins_species[prediction])
 
-st.subheader('Prediction Probability')
+st.subheader('Probabilidad de Predicción')
 st.write(prediction_proba)
